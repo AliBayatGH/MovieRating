@@ -1,0 +1,60 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D8F344C8-9037-4436-B1C9-79B2D5B364A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.API", "src\MovieRating.API\MovieRating.API.csproj", "{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.Application", "src\MovieRating.Application\MovieRating.Application.csproj", "{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.Domain", "src\MovieRating.Domain\MovieRating.Domain.csproj", "{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.Infrastructure", "src\MovieRating.Infrastructure\MovieRating.Infrastructure.csproj", "{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E8F344C8-9037-4436-B1C9-79B2D5B364A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.UnitTests", "tests\MovieRating.UnitTests\MovieRating.UnitTests.csproj", "{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRating.IntegrationTests", "tests\MovieRating.IntegrationTests\MovieRating.IntegrationTests.csproj", "{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E50} = {D8F344C8-9037-4436-B1C9-79B2D5B364A4}
+		{D91F5E7B-9C5F-4B8C-8E4E-5E94F2C3C2C9} = {D8F344C8-9037-4436-B1C9-79B2D5B364A4}
+		{A8E9A415-5E77-4E6F-A44B-E4E88E4F0E51} = {D8F344C8-9037-4436-B1C9-79B2D5B364A4}
+		{B8E9A415-5E77-4E6F-A44B-E4E88E4F0E52} = {D8F344C8-9037-4436-B1C9-79B2D5B364A4}
+		{C8E9A415-5E77-4E6F-A44B-E4E88E4F0E53} = {E8F344C8-9037-4436-B1C9-79B2D5B364A5}
+		{D8E9A415-5E77-4E6F-A44B-E4E88E4F0E54} = {E8F344C8-9037-4436-B1C9-79B2D5B364A5}
+	EndGlobalSection
+EndGlobal 
