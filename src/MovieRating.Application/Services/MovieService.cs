@@ -71,9 +71,17 @@ public class MovieService : IMovieService
         var rating = new Rating(dto.Rating, id, userId);
         movie.AddRating(rating);
 
-        await _movieRepository.UpdateAsync(movie, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        //await _movieRepository.UpdateAsync(movie, cancellationToken);
+        try
+        {
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
         return MapToDto(movie);
     }
 

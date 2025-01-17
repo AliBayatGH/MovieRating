@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MovieRating.Application.DTOs;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;

@@ -25,7 +25,7 @@ public static class DatabaseHelper
             query = query.IgnoreQueryFilters();
         }
 
-        return await query.FirstOrDefaultAsync(x => x.Id == movieId);
+        return await query.AsNoTracking().FirstOrDefaultAsync(x => x.Id == movieId);
     }
 
     public static async Task ClearDatabase(SharedTestContext fixture)
