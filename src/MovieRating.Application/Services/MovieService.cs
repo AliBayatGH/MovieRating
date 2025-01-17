@@ -1,12 +1,10 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieRating.Application.DTOs;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
-using MovieRating.Infrastructure.Persistence;
 
 namespace MovieRating.Application.Services;
 
@@ -22,13 +20,13 @@ public interface IMovieService
 public class MovieService : IMovieService
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly ApplicationDbContext _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateMovieDto> _createMovieValidator;
     private readonly ILogger<MovieService> _logger;
 
     public MovieService(
         IMovieRepository movieRepository,
-        ApplicationDbContext unitOfWork,
+        IUnitOfWork unitOfWork,
         IValidator<CreateMovieDto> createMovieValidator,
         ILogger<MovieService> logger)
     {

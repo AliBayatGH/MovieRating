@@ -48,6 +48,7 @@ try
     builder.Services.AddScoped<QueryLoggingInterceptor>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
     builder.Services.AddScoped<IMovieService, MovieService>();
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
     //// Add Validators
     builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieDtoValidator>();
