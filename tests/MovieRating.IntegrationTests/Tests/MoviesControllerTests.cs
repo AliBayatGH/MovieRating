@@ -7,16 +7,15 @@ using Xunit;
 
 namespace MovieRating.IntegrationTests.Tests;
 
-[Collection("TestCollection")]
-public class MoviesControllerTests
+public class MoviesControllerTests : IClassFixture<SharedTestContext>
 {
     private readonly HttpClient _client;
-    private readonly SharedTestContext _testContext;
+    private readonly SharedTestContext _factory;
 
-    public MoviesControllerTests(SharedTestContext testContext)
+    public MoviesControllerTests(SharedTestContext factory)
     {
-        _testContext = testContext;
-        _client = testContext.Client;
+        _factory = factory;
+        _client = factory.CreateAuthenticatedClient();
     }
 
     [Fact]
