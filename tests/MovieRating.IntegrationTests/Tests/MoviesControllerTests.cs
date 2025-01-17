@@ -2,7 +2,9 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using MovieRating.Application.DTOs;
+using MovieRating.Domain.Entities;
 using MovieRating.IntegrationTests.Fixtures;
+using MovieRating.IntegrationTests.Helpers;
 using Xunit;
 
 namespace MovieRating.IntegrationTests.Tests;
@@ -16,6 +18,8 @@ public class MoviesControllerTests : IClassFixture<SharedTestContext>
     {
         _factory = factory;
         _client = factory.CreateAuthenticatedClient();
+        // Clear database before each test
+        DatabaseHelper.ClearDatabase(_factory).Wait();
     }
 
     [Fact]
@@ -37,23 +41,22 @@ public class MoviesControllerTests : IClassFixture<SharedTestContext>
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         result.Should().NotBeNull();
         result!.Title.Should().Be(movie.Title);
+
+        // Verify in database
+        var savedMovie = await DatabaseHelper.GetMovieFromDatabase(_factory, result.Id);
+        savedMovie.Should().NotBeNull();
+        savedMovie!.Title.Should().Be(movie.Title);
     }
 
     [Fact]
     public async Task GetMovie_WithExistingMovie_ReturnsMovie()
     {
         // Arrange
-        var movie = new CreateMovieDto(
-            "Test Movie",
-            2024,
-            "Action",
-            "John Doe"
-        );
-        var createResponse = await _client.PostAsJsonAsync("/api/movies", movie);
-        var createdMovie = await createResponse.Content.ReadFromJsonAsync<MovieDto>();
+        var movie = await DatabaseHelper.CreateMovieInDatabase(_factory,
+            new Movie("Test Movie", 2024, "Action", "John Doe"));
 
         // Act
-        var response = await _client.GetAsync($"/api/movies/{createdMovie!.Id}");
+        var response = await _client.GetAsync($"/api/movies/{movie.Id}");
         var result = await response.Content.ReadFromJsonAsync<MovieDto>();
 
         // Assert
@@ -118,21 +121,33 @@ public class MoviesControllerTests : IClassFixture<SharedTestContext>
     public async Task DeleteMovie_WithExistingMovie_ReturnsNoContent()
     {
         // Arrange
-        var movie = new CreateMovieDto(
-            "Test Movie",
-            2024,
-            "Action",
-            "John Doe"
-        );
-        var createResponse = await _client.PostAsJsonAsync("/api/movies", movie);
-        var createdMovie = await createResponse.Content.ReadFromJsonAsync<MovieDto>();
+        var movie = await DatabaseHelper.CreateMovieInDatabase(_factory,
+            new Movie("Test Movie", 2024, "Action", "John Doe"));
 
         // Act
-        var deleteResponse = await _client.DeleteAsync($"/api/movies/{createdMovie!.Id}");
-        var getResponse = await _client.GetAsync($"/api/movies/{createdMovie.Id}");
+        var deleteResponse = await _client.DeleteAsync($"/api/movies/{movie.Id}");
+        var getResponse = await _client.GetAsync($"/api/movies/{movie.Id}");
 
         // Assert
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
         getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        // Verify in database
+        var deletedMovie = await DatabaseHelper.GetMovieFromDatabase(_factory, movie.Id);
+        deletedMovie.Should().NotBeNull();
+        deletedMovie!.IsDeleted.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task DeleteMovie_WithNonExistingMovie_ReturnsNotFound()
+    {
+        // Arrange
+        var nonExistingId = Guid.NewGuid();
+
+        // Act
+        var response = await _client.DeleteAsync($"/api/movies/{nonExistingId}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

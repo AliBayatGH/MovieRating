@@ -13,7 +13,7 @@ public class Movie
     private readonly List<Rating> _ratings = new();
     public IReadOnlyCollection<Rating> Ratings => _ratings.AsReadOnly();
 
-    private Movie() { } // For EF Core
+    protected Movie() { } // For EF Core
 
     public Movie(string title, int releaseYear, string genre, string director)
     {
