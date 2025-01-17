@@ -9,6 +9,7 @@ using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
+using MovieRating.Infrastructure.Persistence;
 using Xunit;
 
 namespace MovieRating.UnitTests.Services;
@@ -16,7 +17,7 @@ namespace MovieRating.UnitTests.Services;
 public class MovieServiceTests
 {
     private readonly Mock<IMovieRepository> _movieRepositoryMock;
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+    private readonly Mock<ApplicationDbContext> _unitOfWorkMock;
     private readonly Mock<IValidator<CreateMovieDto>> _validatorMock;
     private readonly Mock<ILogger<MovieService>> _loggerMock;
     private readonly MovieService _sut;
@@ -24,7 +25,7 @@ public class MovieServiceTests
     public MovieServiceTests()
     {
         _movieRepositoryMock = new Mock<IMovieRepository>();
-        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _unitOfWorkMock = new Mock<ApplicationDbContext>();
         _validatorMock = new Mock<IValidator<CreateMovieDto>>();
         _loggerMock = new Mock<ILogger<MovieService>>();
 

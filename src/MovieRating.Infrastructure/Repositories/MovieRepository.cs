@@ -68,11 +68,20 @@ public class MovieRepository : IMovieRepository
         await _context.Movies.AddAsync(movie, cancellationToken);
     }
 
-    public Task UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
     {
-        _context.Movies.Update(movie);
-        return Task.CompletedTask;
+        // Attach the movie if not already tracked
+        _context.Movies.Attach(movie);
+
+        // Ensure all ratings are tracked and marked appropriately
+        foreach (var rating in movie.Ratings.Where(r => _context.Entry(r).State == EntityState.Detached))
+        {
+            _context.Entry(rating).State = EntityState.Added;
+        }
+
+        await Task.CompletedTask; // Maintain async signature
     }
+
 
     public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {

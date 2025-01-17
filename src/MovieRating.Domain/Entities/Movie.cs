@@ -28,6 +28,9 @@ public class Movie
 
     public void AddRating(Rating rating)
     {
+        if (Ratings.Any(r => r.UserId == rating.UserId))
+            throw new InvalidOperationException("User has already rated this movie.");
+
         _ratings.Add(rating);
         UpdatedAt = DateTime.UtcNow;
     }

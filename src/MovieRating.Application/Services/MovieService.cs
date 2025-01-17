@@ -1,10 +1,12 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieRating.Application.DTOs;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
+using MovieRating.Infrastructure.Persistence;
 
 namespace MovieRating.Application.Services;
 
@@ -20,13 +22,13 @@ public interface IMovieService
 public class MovieService : IMovieService
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ApplicationDbContext _unitOfWork;
     private readonly IValidator<CreateMovieDto> _createMovieValidator;
     private readonly ILogger<MovieService> _logger;
 
     public MovieService(
         IMovieRepository movieRepository,
-        IUnitOfWork unitOfWork,
+        ApplicationDbContext unitOfWork,
         IValidator<CreateMovieDto> createMovieValidator,
         ILogger<MovieService> logger)
     {
@@ -71,17 +73,10 @@ public class MovieService : IMovieService
         var rating = new Rating(dto.Rating, id, userId);
         movie.AddRating(rating);
 
-        //await _movieRepository.UpdateAsync(movie, cancellationToken);
-        try
-        {
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _movieRepository.UpdateAsync(movie, cancellationToken);
 
-        }
-        catch (Exception ex)
-        {
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            throw;
-        }
         return MapToDto(movie);
     }
 
