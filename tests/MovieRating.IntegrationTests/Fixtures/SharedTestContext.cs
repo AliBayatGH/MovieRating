@@ -21,17 +21,17 @@ public class SharedTestContext : WebApplicationFactory<Program>, IAsyncLifetime
 
         builder.ConfigureServices(services =>
         {
-            //var descriptor = services.SingleOrDefault(
-            //    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
-            //if (descriptor != null)
-            //    services.Remove(descriptor);
+            if (descriptor != null)
+                services.Remove(descriptor);
 
-            //// Add in-memory database with consistent name
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseInMemoryDatabase(_databaseName);
-            //});
+            // Add in-memory database with consistent name
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(_databaseName);
+            });
 
             // Configure authentication for testing
             services.AddAuthentication(defaultScheme: "TestScheme")

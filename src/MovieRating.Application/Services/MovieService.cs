@@ -53,12 +53,14 @@ public class MovieService : IMovieService
     public async Task<MovieDto?> GetMovieAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var movie = await _movieRepository.GetByIdAsync(id, cancellationToken);
+
         return movie != null ? MapToDto(movie) : null;
     }
 
     public async Task<IEnumerable<MovieDto>> GetMoviesAsync(MovieFilter filter, CancellationToken cancellationToken = default)
     {
         var movies = await _movieRepository.GetAllAsync(filter, cancellationToken);
+
         return movies.Select(MapToDto);
     }
 
