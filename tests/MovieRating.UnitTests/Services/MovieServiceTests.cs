@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieRating.Application.DTOs;
 using MovieRating.Application.Movies.Commands.CreateMovie;
 using MovieRating.Application.Movies.Commands.DeleteMovie;
 using MovieRating.Application.Movies.Commands.RateMovie;

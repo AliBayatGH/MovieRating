@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MovieRating.API.Extensions;
 using MovieRating.API.Middleware;
-using MovieRating.Application.Services;
 using MovieRating.Application.Validators;
 using MovieRating.Domain.Repositories;
 using MovieRating.Infrastructure.Interceptors;
@@ -45,7 +44,6 @@ try
     // Add Services
     builder.Services.AddScoped<QueryLoggingInterceptor>();
     builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-    builder.Services.AddScoped<IMovieService, MovieService>();
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
     //// Add Validators
