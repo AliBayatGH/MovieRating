@@ -1,6 +1,4 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MovieRating.API.Extensions;
@@ -12,7 +10,7 @@ using MovieRating.Infrastructure.Interceptors;
 using MovieRating.Infrastructure.Persistence;
 using MovieRating.Infrastructure.Repositories;
 using Serilog;
-using System.Threading.RateLimiting;
+using MovieRating.Application.Movies.Commands.CreateMovie;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +74,9 @@ try
                 return HealthCheckResult.Unhealthy(exception: ex);
             }
         });
+
+    // Add MediatR
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateMovieCommand).Assembly));
 
     var app = builder.Build();
 

@@ -1,57 +1,61 @@
 using FluentAssertions;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
 using MovieRating.Application.DTOs;
-using MovieRating.Application.Services;
+using MovieRating.Application.Movies.Commands.CreateMovie;
+using MovieRating.Application.Movies.Commands.DeleteMovie;
+using MovieRating.Application.Movies.Commands.RateMovie;
+using MovieRating.Application.Movies.Queries.GetMovie;
+using MovieRating.Application.Movies.Queries.GetMovies;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
 using Xunit;
 
-namespace MovieRating.UnitTests.Services;
+namespace MovieRating.UnitTests.Handlers;
 
-public class MovieServiceTests
+public class MovieHandlersTests
 {
     private readonly Mock<IMovieRepository> _movieRepositoryMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-    private readonly Mock<IValidator<CreateMovieDto>> _validatorMock;
-    private readonly Mock<ILogger<MovieService>> _loggerMock;
-    private readonly MovieService _sut;
+    private readonly Mock<ILogger<CreateMovieCommandHandler>> _createLoggerMock;
+    private readonly Mock<ILogger<GetMovieQueryHandler>> _getLoggerMock;
+    private readonly Mock<ILogger<GetMoviesQueryHandler>> _getAllLoggerMock;
+    private readonly Mock<ILogger<DeleteMovieCommandHandler>> _deleteLoggerMock;
+    private readonly Mock<ILogger<RateMovieCommandHandler>> _rateLoggerMock;
 
-    public MovieServiceTests()
+    public MovieHandlersTests()
     {
         _movieRepositoryMock = new Mock<IMovieRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
-        _validatorMock = new Mock<IValidator<CreateMovieDto>>();
-        _loggerMock = new Mock<ILogger<MovieService>>();
-
-        _sut = new MovieService(
-            _movieRepositoryMock.Object,
-            _unitOfWorkMock.Object,
-            _validatorMock.Object,
-            _loggerMock.Object);
+        _createLoggerMock = new Mock<ILogger<CreateMovieCommandHandler>>();
+        _getLoggerMock = new Mock<ILogger<GetMovieQueryHandler>>();
+        _getAllLoggerMock = new Mock<ILogger<GetMoviesQueryHandler>>();
+        _deleteLoggerMock = new Mock<ILogger<DeleteMovieCommandHandler>>();
+        _rateLoggerMock = new Mock<ILogger<RateMovieCommandHandler>>();
     }
 
     [Fact]
     public async Task CreateMovie_WithValidData_ShouldCreateMovie()
     {
         // Arrange
-        var dto = new CreateMovieDto("Test Movie", 2024, "Action", "John Doe");
-        _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateMovieDto>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
+        var handler = new CreateMovieCommandHandler(
+            _movieRepositoryMock.Object,
+            _unitOfWorkMock.Object,
+            _createLoggerMock.Object);
+            
+        var command = new CreateMovieCommand("Test Movie", 2024, "Action", "John Doe");
 
         // Act
-        var result = await _sut.CreateMovieAsync(dto);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
-        result.Title.Should().Be(dto.Title);
-        result.ReleaseYear.Should().Be(dto.ReleaseYear);
-        result.Genre.Should().Be(dto.Genre);
-        result.Director.Should().Be(dto.Director);
+        result.Title.Should().Be(command.Title);
+        result.ReleaseYear.Should().Be(command.ReleaseYear);
+        result.Genre.Should().Be(command.Genre);
+        result.Director.Should().Be(command.Director);
 
         _movieRepositoryMock.Verify(
             x => x.AddAsync(It.IsAny<Movie>(), It.IsAny<CancellationToken>()),
@@ -65,38 +69,55 @@ public class MovieServiceTests
     public async Task GetMovie_WithExistingId_ShouldReturnMovie()
     {
         // Arrange
+        var handler = new GetMovieQueryHandler(
+            _movieRepositoryMock.Object,
+            _getLoggerMock.Object);
+            
         var movieId = Guid.NewGuid();
         var movie = new Movie("Test Movie", 2024, "Action", "John Doe");
         _movieRepositoryMock.Setup(x => x.GetByIdAsync(movieId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(movie);
 
+        var query = new GetMovieQuery(movieId);
+
         // Act
-        var result = await _sut.GetMovieAsync(movieId);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
-        result!.Title.Should().Be(movie.Title);
+        result.Title.Should().Be(movie.Title);
     }
 
     [Fact]
-    public async Task GetMovie_WithNonExistingId_ShouldReturnNull()
+    public async Task GetMovie_WithNonExistingId_ShouldThrowNotFoundException()
     {
         // Arrange
+        var handler = new GetMovieQueryHandler(
+            _movieRepositoryMock.Object,
+            _getLoggerMock.Object);
+            
         var movieId = Guid.NewGuid();
         _movieRepositoryMock.Setup(x => x.GetByIdAsync(movieId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Movie?)null);
 
+        var query = new GetMovieQuery(movieId);
+
         // Act
-        var result = await _sut.GetMovieAsync(movieId);
+        var act = () => handler.Handle(query, CancellationToken.None);
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<NotFoundException>()
+            .WithMessage($"Movie with ID {movieId} not found");
     }
 
     [Fact]
     public async Task GetMovies_WithFilter_ShouldReturnFilteredMovies()
     {
         // Arrange
+        var handler = new GetMoviesQueryHandler(
+            _movieRepositoryMock.Object,
+            _getAllLoggerMock.Object);
+            
         var filter = new MovieFilter(titleSearch: "Test");
         var movies = new List<Movie>
         {
@@ -105,8 +126,10 @@ public class MovieServiceTests
         _movieRepositoryMock.Setup(x => x.GetAllAsync(filter, It.IsAny<CancellationToken>()))
             .ReturnsAsync(movies);
 
+        var query = new GetMoviesQuery(filter);
+
         // Act
-        var result = await _sut.GetMoviesAsync(filter);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
         result.Should().HaveCount(1);
@@ -117,16 +140,22 @@ public class MovieServiceTests
     public async Task RateMovie_WithValidRating_ShouldUpdateMovie()
     {
         // Arrange
+        var handler = new RateMovieCommandHandler(
+            _movieRepositoryMock.Object,
+            _unitOfWorkMock.Object,
+            _rateLoggerMock.Object);
+            
         var movieId = Guid.NewGuid();
         var userId = Guid.NewGuid();
         var movie = new Movie("Test Movie", 2024, "Action", "John Doe");
-        var dto = new RateMovieDto(5);
 
         _movieRepositoryMock.Setup(x => x.GetByIdAsync(movieId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(movie);
 
+        var command = new RateMovieCommand(movieId, 5, userId);
+
         // Act
-        var result = await _sut.RateMovieAsync(movieId, dto, userId);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -145,18 +174,23 @@ public class MovieServiceTests
     public async Task DeleteMovie_WithExistingMovie_ShouldSoftDelete()
     {
         // Arrange
+        var handler = new DeleteMovieCommandHandler(
+            _movieRepositoryMock.Object,
+            _unitOfWorkMock.Object,
+            _deleteLoggerMock.Object);
+            
         var movieId = Guid.NewGuid();
         var movie = new Movie("Test Movie", 2024, "Action", "John Doe");
         _movieRepositoryMock.Setup(x => x.GetByIdAsync(movieId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(movie);
 
+        var command = new DeleteMovieCommand(movieId);
+
         // Act
-        await _sut.DeleteMovieAsync(movieId);
+        await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _movieRepositoryMock.Verify(
-            x => x.UpdateAsync(It.Is<Movie>(m => m.IsDeleted), It.IsAny<CancellationToken>()),
-            Times.Once);
+        movie.IsDeleted.Should().BeTrue();
         _unitOfWorkMock.Verify(
             x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
             Times.Once);
@@ -166,12 +200,19 @@ public class MovieServiceTests
     public async Task DeleteMovie_WithNonExistingMovie_ShouldThrowNotFoundException()
     {
         // Arrange
+        var handler = new DeleteMovieCommandHandler(
+            _movieRepositoryMock.Object,
+            _unitOfWorkMock.Object,
+            _deleteLoggerMock.Object);
+            
         var movieId = Guid.NewGuid();
         _movieRepositoryMock.Setup(x => x.GetByIdAsync(movieId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Movie?)null);
 
+        var command = new DeleteMovieCommand(movieId);
+
         // Act
-        var act = () => _sut.DeleteMovieAsync(movieId);
+        var act = () => handler.Handle(command, CancellationToken.None);
 
         // Assert
         await act.Should().ThrowAsync<NotFoundException>()

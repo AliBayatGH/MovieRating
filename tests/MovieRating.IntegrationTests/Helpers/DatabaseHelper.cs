@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MovieRating.Domain.Entities;
-using MovieRating.Infrastructure.Persistence;
 using MovieRating.IntegrationTests.Fixtures;
 
 namespace MovieRating.IntegrationTests.Helpers;
