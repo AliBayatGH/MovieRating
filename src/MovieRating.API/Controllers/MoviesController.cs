@@ -8,7 +8,9 @@ using System.Security.Claims;
 namespace MovieRating.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/[controller]")] // for backward compatibility
 [Authorize]
 public class MoviesController : ControllerBase
 {
