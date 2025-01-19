@@ -8,9 +8,9 @@ using MovieRating.API.Middleware;
 using MovieRating.Application.Services;
 using MovieRating.Application.Validators;
 using MovieRating.Domain.Repositories;
-using MovieRating.Infrastructure.Interceptors;
 using MovieRating.Infrastructure.Persistence;
-using MovieRating.Infrastructure.Repositories;
+using MovieRating.Infrastructure.Persistence.Interceptors;
+using MovieRating.Infrastructure.Persistence.Repositories;
 using Serilog;
 using System.Threading.RateLimiting;
 

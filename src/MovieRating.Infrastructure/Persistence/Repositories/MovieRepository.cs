@@ -4,7 +4,7 @@ using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
 using MovieRating.Infrastructure.Persistence;
 
-namespace MovieRating.Infrastructure.Repositories;
+namespace MovieRating.Infrastructure.Persistence.Repositories;
 
 public class MovieRepository : IMovieRepository
 {

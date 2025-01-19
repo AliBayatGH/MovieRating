@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Data.Common;
 using System.Diagnostics;
 
-namespace MovieRating.Infrastructure.Interceptors;
+namespace MovieRating.Infrastructure.Persistence.Interceptors;
 
 public class QueryLoggingInterceptor : DbCommandInterceptor
 {
