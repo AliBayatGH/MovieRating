@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MovieRating.API.Extensions;
 using MovieRating.API.Middleware;
-using MovieRating.Application.Validators;
 using MovieRating.Domain.Repositories;
 using MovieRating.Infrastructure.Interceptors;
 using MovieRating.Infrastructure.Persistence;
@@ -47,7 +46,7 @@ try
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
     //// Add Validators
-    builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieDtoValidator>();
+    builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieCommandValidator>();
 
     // Add Authentication
     if (!builder.Environment.IsEnvironment("Test"))
