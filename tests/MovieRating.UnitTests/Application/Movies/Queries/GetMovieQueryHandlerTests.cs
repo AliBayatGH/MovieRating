@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieRating.Application.Movies.Queries.GetMovie;
+using MovieRating.Application.Queries.Movies.GetMovie;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Repositories;

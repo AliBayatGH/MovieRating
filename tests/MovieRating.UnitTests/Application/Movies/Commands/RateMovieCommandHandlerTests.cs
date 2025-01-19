@@ -2,7 +2,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieRating.Application.Movies.Commands.RateMovie;
+using MovieRating.Application.Commands.Movies.RateMovie;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Repositories;
 using Xunit;

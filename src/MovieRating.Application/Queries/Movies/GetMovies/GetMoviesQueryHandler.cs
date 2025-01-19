@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using MovieRating.Application.DTOs;
 using MovieRating.Domain.Repositories;
 
-namespace MovieRating.Application.Movies.Queries.GetMovies;
+namespace MovieRating.Application.Queries.Movies.GetMovies;
 
 public class GetMoviesQueryHandler : IRequestHandler<GetMoviesQuery, IEnumerable<MovieDto>>
 {

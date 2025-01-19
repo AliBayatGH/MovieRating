@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace MovieRating.Application.Movies.Commands.DeleteMovie;
+namespace MovieRating.Application.Commands.Movies.DeleteMovie;
 
 public class DeleteMovieCommandValidator : AbstractValidator<DeleteMovieCommand>
 {

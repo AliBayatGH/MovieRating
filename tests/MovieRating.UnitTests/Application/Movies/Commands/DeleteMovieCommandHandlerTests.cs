@@ -2,7 +2,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieRating.Application.Movies.Commands.DeleteMovie;
+using MovieRating.Application.Commands.Movies.DeleteMovie;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Repositories;

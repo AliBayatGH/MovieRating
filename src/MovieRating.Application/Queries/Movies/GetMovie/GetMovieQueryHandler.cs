@@ -4,7 +4,7 @@ using MovieRating.Application.DTOs;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Repositories;
 
-namespace MovieRating.Application.Movies.Queries.GetMovie;
+namespace MovieRating.Application.Queries.Movies.GetMovie;
 
 public class GetMovieQueryHandler : IRequestHandler<GetMovieQuery, MovieDto>
 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MovieRating.Domain.Entities;
-using MovieRating.Infrastructure.Interceptors;
+using MovieRating.Infrastructure.Persistence.Interceptors;
 using System.Reflection;
 
 namespace MovieRating.Infrastructure.Persistence;

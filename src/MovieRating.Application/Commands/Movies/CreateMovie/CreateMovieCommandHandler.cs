@@ -4,7 +4,7 @@ using MovieRating.Application.DTOs;
 using MovieRating.Domain.Entities;
 using MovieRating.Domain.Repositories;
 
-namespace MovieRating.Application.Movies.Commands.CreateMovie;
+namespace MovieRating.Application.Commands.Movies.CreateMovie;
 
 public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 {

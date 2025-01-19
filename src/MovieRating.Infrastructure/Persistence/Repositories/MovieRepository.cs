@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using MovieRating.Domain.Entities;
-using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
+using MovieRating.Domain.ValueObjects;
 using MovieRating.Infrastructure.Persistence;
 
-namespace MovieRating.Infrastructure.Repositories;
+namespace MovieRating.Infrastructure.Persistence.Repositories;
 
 public class MovieRepository : IMovieRepository
 {

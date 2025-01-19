@@ -1,10 +1,10 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MovieRating.Application.Movies.Queries.GetMovies;
+using MovieRating.Application.Queries.Movies.GetMovies;
 using MovieRating.Domain.Entities;
-using MovieRating.Domain.Models;
 using MovieRating.Domain.Repositories;
+using MovieRating.Domain.ValueObjects;
 using Xunit;
 
 namespace MovieRating.UnitTests.Application.Movies.Queries;

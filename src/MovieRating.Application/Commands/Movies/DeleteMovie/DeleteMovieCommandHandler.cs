@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Repositories;
 
-namespace MovieRating.Application.Movies.Commands.DeleteMovie;
+namespace MovieRating.Application.Commands.Movies.DeleteMovie;
 
 public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand>
 {
