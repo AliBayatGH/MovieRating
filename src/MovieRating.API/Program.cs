@@ -6,9 +6,9 @@ using MovieRating.API.Middleware;
 using MovieRating.Domain.Repositories;
 using MovieRating.Infrastructure.Interceptors;
 using MovieRating.Infrastructure.Persistence;
-using MovieRating.Infrastructure.Repositories;
 using Serilog;
-using MovieRating.Application.Movies.Commands.CreateMovie;
+using MovieRating.Application.Commands.Movies.CreateMovie;
+using MovieRating.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

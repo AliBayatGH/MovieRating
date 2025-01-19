@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace MovieRating.Application.Movies.Commands.DeleteMovie;
+namespace MovieRating.Application.Commands.Movies.DeleteMovie;
 
 public record DeleteMovieCommand(Guid Id) : IRequest;

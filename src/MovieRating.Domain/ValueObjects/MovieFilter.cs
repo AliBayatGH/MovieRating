@@ -1,4 +1,4 @@
-namespace MovieRating.Domain.Models;
+namespace MovieRating.Domain.ValueObjects;
 
 public class MovieFilter
 {

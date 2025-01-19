@@ -5,7 +5,7 @@ using MovieRating.Domain.Entities;
 using MovieRating.Domain.Exceptions;
 using MovieRating.Domain.Repositories;
 
-namespace MovieRating.Application.Movies.Commands.RateMovie;
+namespace MovieRating.Application.Commands.Movies.RateMovie;
 
 public class RateMovieCommandHandler : IRequestHandler<RateMovieCommand, MovieDto>
 {

@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieRating.Application.Commands.Movies.CreateMovie;
+using MovieRating.Application.Commands.Movies.DeleteMovie;
+using MovieRating.Application.Commands.Movies.RateMovie;
 using MovieRating.Application.DTOs;
-using MovieRating.Application.Movies.Commands.CreateMovie;
-using MovieRating.Application.Movies.Commands.DeleteMovie;
-using MovieRating.Application.Movies.Commands.RateMovie;
-using MovieRating.Application.Movies.Queries.GetMovie;
-using MovieRating.Application.Movies.Queries.GetMovies;
-using MovieRating.Domain.Models;
+using MovieRating.Application.Queries.Movies.GetMovie;
+using MovieRating.Application.Queries.Movies.GetMovies;
+using MovieRating.Domain.ValueObjects;
 using System.Security.Claims;
 
 namespace MovieRating.API.Controllers;

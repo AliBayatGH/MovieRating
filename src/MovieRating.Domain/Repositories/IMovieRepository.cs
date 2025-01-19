@@ -1,5 +1,5 @@
 using MovieRating.Domain.Entities;
-using MovieRating.Domain.Models;
+using MovieRating.Domain.ValueObjects;
 
 namespace MovieRating.Domain.Repositories;
 
